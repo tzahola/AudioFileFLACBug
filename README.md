@@ -8,7 +8,7 @@ The first time you call [AudioFileReadPacketData](https://developer.apple.com/do
 ## Using this project
 
 1. Clone this repository
-2. Run the `make_test_files` shell script from the repository root. This will create two FLAC files (`big.flac` and `small.flac`) filled with data from `/dev/urandom`.
+2. Run the `make_test_files` shell script from the repository root. This will create two FLAC files (`big.flac` and `small.flac`) filled with data from `/dev/urandom`. (This step assumes you have the [reference command line FLAC encoder](https://xiph.org/flac/download.html) installed)
 3. Open `AudioFileFLACBug.xcodeproj`
 4. Launch the application on an iOS device or an iOS Simulator.
 
