@@ -41,13 +41,16 @@ AudioFileReadPacketData begin: 2 packets, 49220 bytes
 ```
 By changing the program to use `small.flac` instead of `big.flac` (`[NSBundle.mainBundle URLForResource:@"big" withExtension:@"flac"]`), you can verify that the duration of the first `AudioFileReadPacketData` will be proportional to the size of the file. That is, it will be almost unnoticeable for `small.flac` (being 2 MByte), but there will be a definite lag for `big.flac` (470 MByte). 
 
-Profiling the application reveals that an exceeding amount of time is spent in the following subroutine:
+Profiling the application reveals that an exceeding amount of time is spent in the following stack trace:
 
 ```
    6 AudioToolbox 404.0  AudioFileReadPacketData
    5 AudioToolbox 404.0  AudioFileObject::ReadPacketDataVBR(unsigned char, unsigned int*, AudioStreamPacketDescription*, long long, unsigned int*, void*)
    4 AudioToolbox 402.0  FLACAudioFile::ScanForPackets(long long, DataSource*, bool)
    3 AudioToolbox 398.0  FLACAudioFile::ScanForSyncWord(long long, long long, unsigned int&)
+   2 AudioToolbox 150.0  Cached_DataSource::ReadBytes(unsigned short, long long, unsigned int, void*, unsigned int*)
+   1 AudioToolbox 131.0  UnixFile_DataSource::ReadBytes(unsigned short, long long, unsigned int, void*, unsigned int*)
+   0 libsystem_kernel.dylib 130.0  pread
 ```
 
 Disk usage and the fact that the issue is exemplified on larger files indicates that `FLACAudioFile::ScanForSyncWord` scans through the whole file when `AudioFileReadPacketData` is called for the first time on the given file. Curiously, this only happens when the number of packets to read is greater than one, so basically reading a single packet N times turns out to be a few thousand times faster than trying to read N packets at once...
