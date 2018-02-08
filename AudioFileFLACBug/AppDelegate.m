@@ -47,7 +47,7 @@ static inline void check(OSStatus status) {
         assert(size == sizeof(packetSizeUpperBound));
     }
     
-    const int maxPacketCount = 2;
+    const int maxPacketCount = 2; // Change this to 1 and observe how the first AudioFileReadPacketData takes unreasonably long!
     const size_t bufferSize = packetSizeUpperBound * maxPacketCount;
     void* buffer = malloc(bufferSize);
     AudioStreamPacketDescription* packets = malloc(sizeof(*packets) * maxPacketCount);
