@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+RATE=44100
+CHANNELS=2
+BITS=24
+
+dd if=/dev/urandom bs=$(( $RATE * $CHANNELS * $BITS / 8 )) count=1800 | \
+flac --force-raw-format \
+	--endian=little \
+	--channels=$CHANNELS \
+	--bps=$BITS \
+	--sample-rate=$RATE \
+	--sign=signed \
+	--best \
+	-o big.flac -
+
+dd if=/dev/urandom bs=$(( $RATE * $CHANNELS * $BITS / 8 )) count=10 | \
+flac --force-raw-format \
+	--endian=little \
+	--channels=$CHANNELS \
+	--bps=$BITS \
+	--sample-rate=$RATE \
+	--sign=signed \
+	--best \
+	-o small.flac -
+
