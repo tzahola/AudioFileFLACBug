@@ -55,4 +55,4 @@ Profiling the application reveals that an exceeding amount of time is spent in t
 
 Disk usage and the fact that the issue is exemplified on larger files indicates that `FLACAudioFile::ScanForSyncWord` scans through the whole file when `AudioFileReadPacketData` is called for the first time on the given file. Curiously, this only happens when the number of packets to read is greater than one, so basically reading a single packet N times turns out to be a few thousand times faster than trying to read N packets at once...
 
-I couldn't reproduce similar behavior when decoding ALAC or MP3 files via the AudioFile APIs, so this issue seems to be unique to the FLAC decoder in the AudioToolbox framework. 
+I couldn't reproduce this behavior when decoding ALAC or MP3 files via the AudioFile APIs, so this issue seems to be unique to the FLAC decoder in the AudioToolbox framework. 
