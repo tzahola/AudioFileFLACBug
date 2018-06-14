@@ -1,6 +1,10 @@
 # AudioFileFLACBug
 Demonstrating a bug in the FLAC decoder of Apple's AudioToolbox framework
 
+# 2018-06-14 Update
+
+The issue seems to be fixed in iOS 12 beta.
+
 ## Bug summary
 
 The first time you call [AudioFileReadPacketData](https://developer.apple.com/documentation/audiotoolbox/1502788-audiofilereadpacketdata?language=objc) on a FLAC file, it takes unreasonably long to return, unless you read *exactly one* packet. 
